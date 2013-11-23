@@ -40,6 +40,19 @@ def test_cond_phase_shift():
     print cond_phase_shift(c).transpose()   # -|10101>
 
 
+def test_iterator():
+    print 'Iterator test'
+    c = Circuit(3)
+    print c.state[-1].transpose()
+    c.add_gate(X, [3,])
+    for i in range(1, 4):
+        c.add_gate(H, [i,])
+    print iterator(c, 1, ['00',])
+
+
 if __name__ == '__main__':
     test_oracle()
+    print
     test_cond_phase_shift()
+    print
+    test_iterator()

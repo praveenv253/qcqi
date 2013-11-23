@@ -1,7 +1,8 @@
 import numpy as np
 
-from gates import X, Z
+from gates import X, Z, H
 from tensorprod import tensor
+
 
 def oracle(circuit, M, targets):
     """
@@ -82,3 +83,44 @@ def cond_phase_shift(circuit):
 
     return state
 
+
+def iterator(circuit, M, targets):
+    """
+    Builds and adds a Grover iterator for the given targets to the given
+    cicuit.
+
+    Parameters
+    ----------
+    circuit : Circuit
+        Quantum circuit to add the oracle to
+    M : integer
+        Number of target states
+    targets : list of strings
+        List of target states (in binary) for the Grover's search algorithm
+
+    Returns
+    -------
+    state : np.ndarray
+        State of the system after the application of the oracle.
+    """
+
+    n = circuit.num_rails
+
+    # First, apply the oracle
+    oracle(circuit, M, targets)
+
+    # Now, we need to perform the inversion-about-the-mean operation
+
+    # So, first apply the n-qubit Hadamard gate on the first n-1 rails
+    for i in range(1, n):
+        circuit.add_gate(H, [i,])
+
+    # Then apply the conditional phase shift operation
+    cond_phase_shift(circuit)
+
+    # Finally, reapply the n-qubit Hadamard gate
+    state = None
+    for i in range(1, n):
+        state = circuit.add_gate(H, [i,])
+
+    return state
