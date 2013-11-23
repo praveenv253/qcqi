@@ -1,5 +1,7 @@
 import numpy as np
-from gates import X
+
+from gates import X, Z
+from tensorprod import tensor
 
 def oracle(circuit, M, targets):
     """
@@ -35,3 +37,48 @@ def oracle(circuit, M, targets):
         controls = np.hstack((one_controls, zero_controls))
         state = circuit.add_gate(gate, qubits, controls)
     return state
+
+
+def cond_phase_shift(circuit):
+    """
+    Performs the conditional phase shift operation 2|0><0| - I on the given
+    circuit.
+
+    Parameters
+    ----------
+    circuit : Circuit
+        Quantum circuit to apply the conditional phase shift operation on
+
+    Returns
+    -------
+    state : np.ndarray
+        State of the system after the application of the conditional phase
+        shift operation.
+    """
+
+    n = circuit.num_rails
+    state = None
+
+    # First, invert all qubits
+    for i in range(1, n):
+        qubits = [i,]
+        gate = X.copy()
+        circuit.add_gate(gate, qubits)
+
+    # Then, apply a Z operation on any one qubit, with a control from all other
+    # input qubits. This will ensure that the state gets negated only when it
+    # is |111...1>
+    gate = Z.copy()
+    qubits = [n-1,]
+    controls = range(1, n-1)
+    circuit.add_gate(gate, qubits, controls)
+
+    # Finally, invert everything back, so that only |000...0> would have
+    # suffered negation
+    for i in range(1, n):
+        qubits = [i,]
+        gate = X.copy()
+        state = circuit.add_gate(gate, qubits)
+
+    return state
+
