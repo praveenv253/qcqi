@@ -26,11 +26,11 @@ class Circuit(object):
         => Must have either num_rails of 2^num_rails number of entries.
     """
 
-    def __init__(self, num_rails, initial_state=0):
+    def __init__(self, num_rails, initial_state=None):
         self.num_rails = num_rails
         self.state = []
         self.gates = []
-        if initial_state:
+        if initial_state is not None:
             if initial_state.shape == [num_rails, 1]:
                 # Qubit-wise definition.
                 state = None
@@ -48,7 +48,7 @@ class Circuit(object):
                     else:
                         raise ValueError('Qubit can only be either 0 or 1')
             else:
-                if initial_state.shape != [num_rails ** 2, 1]:
+                if initial_state.shape != (2 ** num_rails, 1):
                     # Not a full description.
                     raise ValueError('Incomplete or improper definition of'
                                      ' initial_state')
