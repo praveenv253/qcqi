@@ -1,0 +1,15 @@
+Grover's Search Algorithm
+=========================
+
+I am working on simulating Grover's search algorithm. The program is to accept the following as inputs:
+• The number of qubits, N
+• The number of targets, M
+• The list of targets, T, any one of which is a valid result of the search operation
+
+The program should then choose an appropriate number of iterations of the Grover's iterator, simulate the action of algorithm and provide an answer.
+The program should be able to display:
+• The state |\psi\rangle of the system after each iteration
+• The amplitude plot and the probability of collapsing into one of the target states at the i^{th} iteration
+• Possibly a graphical display showing how |\psi\rangle is moving between |t\rangle and |t^{\perp}\rangle, where |t\rangle is the uniform superposition of all the target states and |t^{\perp}\rangle is the superposition of all non-target states.
+
+
