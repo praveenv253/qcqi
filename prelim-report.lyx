@@ -1,0 +1,473 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass literate-article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman charter
+\font_sans default
+\font_typewriter beramono
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 80
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 2.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\headheight 1.5cm
+\headsep 2.5cm
+\footskip 4cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Quantum Computation and Quantum Information
+\begin_inset Newline newline
+\end_inset
+
+Project Progress Report
+\end_layout
+
+\begin_layout Author
+Praveen Venkatesh
+\begin_inset Newline newline
+\end_inset
+
+EE10B028
+\end_layout
+
+\begin_layout Section
+The problem
+\end_layout
+
+\begin_layout Standard
+I am working on simulating Grover's search algorithm.
+ The program is to accept the following as inputs:
+\end_layout
+
+\begin_layout Itemize
+The number of qubits, 
+\begin_inset Formula $N$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The number of targets, 
+\begin_inset Formula $M$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The list of targets, 
+\begin_inset Formula $T$
+\end_inset
+
+, any one of which is a valid result of the search operation
+\end_layout
+
+\begin_layout Standard
+The program should then choose an appropriate number of iterations of the
+ Grover's iterator, simulate the action of algorithm and provide an answer.
+\end_layout
+
+\begin_layout Standard
+The program should be able to display:
+\end_layout
+
+\begin_layout Itemize
+The state 
+\begin_inset Formula $|\psi\rangle$
+\end_inset
+
+ of the system after each iteration
+\end_layout
+
+\begin_layout Itemize
+The amplitude plot and the probability of collapsing into one of the target
+ states at the 
+\begin_inset Formula $i^{th}$
+\end_inset
+
+ iteration
+\end_layout
+
+\begin_layout Itemize
+Possibly a graphical display showing how 
+\begin_inset Formula $|\psi\rangle$
+\end_inset
+
+ is moving between 
+\begin_inset Formula $|t\rangle$
+\end_inset
+
+ and 
+\begin_inset Formula $|t^{\perp}\rangle$
+\end_inset
+
+, where 
+\begin_inset Formula $|t\rangle$
+\end_inset
+
+ is the uniform superposition of all the target states and 
+\begin_inset Formula $|t^{\perp}\rangle$
+\end_inset
+
+ is the superposition of all non-target states.
+\end_layout
+
+\begin_layout Section
+Progress
+\end_layout
+
+\begin_layout Standard
+I have completed constructing a quantum circuit simulator module, which
+ allows one to:
+\end_layout
+
+\begin_layout Itemize
+Define a quantum circuit with the requisite number of qubits
+\end_layout
+
+\begin_layout Itemize
+Define the starting state 
+\begin_inset Formula $|\psi_{0}\rangle$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Add arbitrary single qubit gates (defined by 
+\begin_inset Formula $2\times2$
+\end_inset
+
+ unitary transformations), each controlled by any number of the other qubits.
+\end_layout
+
+\begin_layout Standard
+For each gate, the program evaluates the overall transformation upon all
+ qubits and computes the state of the circuit after the application of the
+ gate.
+ In order to make these operations simpler, I have also programmed a tensor
+ product module, which computes the tensor product of two arbitrary 2-dimensiona
+l matrices (including 
+\begin_inset Formula $N\times1$
+\end_inset
+
+ vectors).
+ Refer §4 for module descriptions.
+\end_layout
+
+\begin_layout Section
+Future direction
+\end_layout
+
+\begin_layout Standard
+I intend to move forward by defining the oracle and the gates used in Grover's
+ search algorithm and then constructing the circuit required by building
+ up the blocks.
+ Since the circuit tells me the state after the application of each gate,
+ I will be able to supply the amplitude plot of the state after each iteration
+ of Grover's algorithm.
+\end_layout
+
+\begin_layout Section
+Module descriptions
+\end_layout
+
+\begin_layout Scrap
+<<Circuit Module>>=
+\end_layout
+
+\begin_layout Scrap
+class Circuit(num_rails, initial_state)
+\end_layout
+
+\begin_layout Scrap
+	Defines a quantum computational circuit.
+ Allows one to define the number of
+\end_layout
+
+\begin_layout Scrap
+	rails in the circuit, add gates to any number of rails, etc.
+ Records the
+\end_layout
+
+\begin_layout Scrap
+	state of the circuit after the addition of each gate.
+\end_layout
+
+\begin_layout Scrap
+	 
+\end_layout
+
+\begin_layout Scrap
+	Parameters
+\end_layout
+
+\begin_layout Scrap
+	---------------
+\end_layout
+
+\begin_layout Scrap
+	num_rails : integer
+\end_layout
+
+\begin_layout Scrap
+		Number of rails in the circuit.
+\end_layout
+
+\begin_layout Scrap
+	initial_state : np.ndarray
+\end_layout
+
+\begin_layout Scrap
+		Initial state vector of all rails.
+ Must be either the qubit-wise
+\end_layout
+
+\begin_layout Scrap
+		state or the joint state.
+ If the definition is qubit-wise,
+\end_layout
+
+\begin_layout Scrap
+		then the qubits must be either |0> or |1>.
+\end_layout
+
+\begin_layout Scrap
+		=> Must have either num_rails of 2^num_rails number of entries.
+\end_layout
+
+\begin_layout Scrap
+		 
+\end_layout
+
+\begin_layout Scrap
+function add_gate(circuit, gate, qubits, controls)
+\end_layout
+
+\begin_layout Scrap
+	Add a gate to the circuit.
+\end_layout
+
+\begin_layout Scrap
+	Can currently handle only single-qubit gates with one or more controls.
+\end_layout
+
+\begin_layout Scrap
+		 
+\end_layout
+
+\begin_layout Scrap
+	Parameters
+\end_layout
+
+\begin_layout Scrap
+	---------------
+\end_layout
+
+\begin_layout Scrap
+	gate : np.ndarray
+\end_layout
+
+\begin_layout Scrap
+		2D matrix defining the transformation.
+ Must be unitary.
+ Size of the
+\end_layout
+
+\begin_layout Scrap
+		matrix must be (NxN) where N is 2^len(qubits)
+\end_layout
+
+\begin_layout Scrap
+	qubits : list
+\end_layout
+
+\begin_layout Scrap
+		List of rail or qubit numbers upon which this gate acts.
+ Numbers
+\end_layout
+
+\begin_layout Scrap
+		must be between 1 and num_rails.
+\end_layout
+
+\begin_layout Scrap
+	controls : list
+\end_layout
+
+\begin_layout Scrap
+		Control qubits upon which this gate depends.
+ Absolute value of
+\end_layout
+
+\begin_layout Scrap
+		qubit numbers must be between 1 and num_rails.
+ Use a negative sign
+\end_layout
+
+\begin_layout Scrap
+		to indicate 0-control.
+\end_layout
+
+\begin_layout Scrap
+	 
+\end_layout
+
+\begin_layout Scrap
+	Returns
+\end_layout
+
+\begin_layout Scrap
+	-----------
+\end_layout
+
+\begin_layout Scrap
+	state : np.ndarray
+\end_layout
+
+\begin_layout Scrap
+		(num_rails x 1) dimensional state vector after successful
+\end_layout
+
+\begin_layout Scrap
+		application of the gate.
+\end_layout
+
+\begin_layout Scrap
+@
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Scrap
+<<Tensor product module>>=
+\end_layout
+
+\begin_layout Scrap
+function tensorprod(A, B):
+\end_layout
+
+\begin_layout Scrap
+	Computes the tensor product of the 2D matrices A and B.
+ Not efficient for
+\end_layout
+
+\begin_layout Scrap
+	large arrays.
+\end_layout
+
+\begin_layout Scrap
+	 
+\end_layout
+
+\begin_layout Scrap
+	Parameters
+\end_layout
+
+\begin_layout Scrap
+	---------------
+\end_layout
+
+\begin_layout Scrap
+	A, B : np.ndarray, 2-dimensional
+\end_layout
+
+\begin_layout Scrap
+		Input matrices.
+ Order is important.
+\end_layout
+
+\begin_layout Scrap
+	 
+\end_layout
+
+\begin_layout Scrap
+	Returns
+\end_layout
+
+\begin_layout Scrap
+	----------
+\end_layout
+
+\begin_layout Scrap
+	C : np.ndarray, 2-dimensional
+\end_layout
+
+\begin_layout Scrap
+		C = A tensor B
+\end_layout
+
+\begin_layout Scrap
+@
+\end_layout
+
+\end_body
+\end_document
